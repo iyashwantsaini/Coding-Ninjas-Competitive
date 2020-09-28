@@ -1,2 +1,3 @@
-# cp_master
+# Competitive Master
+
 Competitive Problems | C++
