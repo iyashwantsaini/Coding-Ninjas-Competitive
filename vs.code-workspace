@@ -88,7 +88,10 @@
 			"shared_mutex": "cpp",
 			"sstream": "cpp",
 			"thread": "cpp",
-			"typeindex": "cpp"
+			"typeindex": "cpp",
+			"any": "cpp",
+			"bit": "cpp",
+			"variant": "cpp"
 		},
 		"compile-hero.disable-compile-files-on-did-save-code": false
 	}
