@@ -46,6 +46,11 @@ int main(){
                 }
             }else{
                 v[v.size()/2]=it->second[iinner];
+                iinner++;
+                while(iinner<jinner){
+                    v[i++]=it->second[iinner++];
+                    v[j--]=it->second[jinner--];
+                }
             }
         }
         for(int i=0;i<v.size();i++){
