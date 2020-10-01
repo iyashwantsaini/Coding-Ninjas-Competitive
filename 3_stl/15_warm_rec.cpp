@@ -18,6 +18,10 @@ using namespace std;
 int main() {
 	int n;
     cin>>n;
+    if(n==1){
+     	cout<<1<<endl;
+        return 0;
+    }
     int arrival[n];
     for(int i=0;i<n;i++){
         cin>>arrival[i];
@@ -26,16 +30,24 @@ int main() {
     for(int i=0;i<n;i++){
         cin>>departure[i];
     }
-	int count=0;
+    map<int,int> m;
     for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            if(j!=i){
-                if(arrival[i]<=arrival[j]&&(departure[i]-arrival[i])>=arrival[j]){
-                    count++;
-                    break;
-                }
+            m[arrival[i]]=1;
+            m[departure[i]]=1;   
+    }
+    map<int,int>::iterator it;
+    int maxnum=0;
+    for(it=m.begin();it!=m.end();it++){
+		int x=it->first;
+    	for(int i=0;i<n;i++){
+            if(x>=arrival[i]&&x<=departure[i]){
+                m[it->first]++;
             }
         }
+        if(m[it->first]>maxnum){
+            maxnum=m[it->first];
+        }
     }
-    cout<<count<<endl;
+    cout<<maxnum-1<<endl;
+	return 0;	
 }
