@@ -2,7 +2,7 @@
 using namespace std;
 
 // return first non rep char in string
-// if not found return first
+// if not found return first index num
 
 int main(){
     string s="aabbcccdeefghhg";
