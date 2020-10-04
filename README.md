@@ -7,3 +7,5 @@ Competitive Problems | C++
 - complexity analysis
 - std template lib
 - language tools
+- sorting searching
+- advanced recursion
