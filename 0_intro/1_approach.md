@@ -10,4 +10,4 @@
 
 - time limit
 - mem limit ( 256MB )
-- input range ( `0<N<10^6` )
+- input range ( `m<=N<=10^n` )
