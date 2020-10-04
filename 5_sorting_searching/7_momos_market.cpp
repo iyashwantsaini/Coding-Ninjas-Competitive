@@ -19,3 +19,88 @@
 // 3 2
 // Explanation:
 // Shreya visits the "Momos Market" for only one day. She has 11 INR to spend. She can buy 3 momos, each from the first 3 shops. She would 9 INR (2 + 1 + 6) for the same and hence, she will save 2 INR.
+
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int n;
+    cin>>n;
+    int price[n];
+    for(int i=0;i<n;i++){
+        cin>>price[i];
+    }
+    int q;
+    cin>>q;
+    int saved[q];
+    for(int i=0;i<q;i++){
+        cin>>saved[i];
+    }
+    
+    //base case shops = 1
+    if(n==1){
+        for(int i=0;i<q;i++){
+            if(saved[i]>=price[0]){
+                cout<<1<<" "<<saved[i]-price[0]<<endl;
+            }else{
+                cout<<0<<" "<<saved[i]<<endl;
+            }
+        }
+        return 0;
+    }
+    
+
+    // find continuous sum (prefix sum) - eg array 2,1,3,4 -> cont sum => 2 ,3 ,6 ,10
+    for(int i=1;i<n;i++){
+        price[i]+=price[i-1];
+    }
+    
+    //for every saved money find its posn in price continuous sum using binary search
+    for(int i=0;i<q;i++){
+        
+        int num_momos=0; //total momos eaten that day
+    	int saved_money=0; //money saved after eating momos
+        
+        int money=saved[i];
+        
+        //check if this money is less than required at first shop
+        if(money<price[0]){
+            cout<<0<<" "<<money<<endl;
+            continue;
+        }
+        
+        if(money==price[0]){
+            cout<<1<<" "<<money-price[0]<<endl;
+            continue;
+        }
+        
+        //check if this money is greater than all sums ie. last index
+        if(money>=price[n-1]){
+            //bought 1 momo from each shop
+            cout<<n<<" "<<money-price[n-1]<<endl;
+            continue;
+        }
+        
+        int minindex=0;
+        int maxindex=n-1;
+        
+        while(minindex<=maxindex){
+            int mid=minindex+(maxindex-minindex)/2;
+            if(price[mid]>money){
+                maxindex=mid-1;
+            }else if(price[mid]<money){
+                num_momos=mid+1;
+            	minindex=mid+1;
+                if(price[mid+1]>money&&mid<n-1){
+                    break;
+                }
+            }else{
+                num_momos=mid+1;
+                break;
+            }
+        }
+        cout<<num_momos<<" "<< money-price[num_momos-1] <<endl;
+    }
+    
+	return 0;
+}
