@@ -18,3 +18,25 @@
 // Aahad at Window 3: [0, 1, 0, 0]
 // So, when Aahad is at window 3, he got zero people before him. Hence, he will get the ticket at window 3.
 
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int n;
+    cin>>n;
+    int w[n];
+    for(int i=0;i<n;i++){
+        cin>>w[i];
+    }
+    int del=0;
+    for(int i=0;;i++){
+        i=i%n;
+        w[i]-=del;
+        del++;
+        if(w[i]<=0){
+            cout<<i+1<<endl;
+            break;
+        }
+    }
+	return 0;
+}
