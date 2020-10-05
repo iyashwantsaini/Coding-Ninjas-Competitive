@@ -26,42 +26,38 @@ void swap(int *a,int *b){
     *b=temp;
 }
 
-int partition(int *input,int start,int end){
-    int num=input[end]; //pivot element
-    int countless=start-1;
-    for(int i=start;i<=end-1;i++){
-        if(input[i]<num){
-            countless++;
-            swap(&input[countless], &input[i]); 
+// int partition(int *input,int start,int end){
+//     int num=input[end]; //pivot element
+//     int countless=start-1;
+//     for(int i=start;i<=end-1;i++){
+//         if(input[i]<num){
+//             countless++;
+//             swap(&input[countless], &input[i]); 
+//         }
+//     }
+//     swap(&input[countless+1],&input[end]);
+//     return countless+1;
+// }
+
+int partition(int *a,int s,int e){
+    int count=0;
+    for(int i=s+1;i<=e;i++){
+        if(a[i]<=a[s]){
+            count++;
         }
     }
-    swap(&input[countless+1],&input[end]);
-    return countless+1;
+    swap(&a[s],&a[s+count]);
+    for(int i=s,j=e;i<count+s && j>count+s;){
+        if(a[i]<=a[s+count]){
+            i++;
+        }else if(a[j]>a[s+count]){
+            j--;
+        }else{
+            swap(&a[i++],&a[j--]);
+        }
+    }
+    return count+s;
 }
-
-// int partition(int *a,int s,int e){
-//     int num=a[s];
-//     int count=s-1;
-//     for(int i=s;i<=e;i++){
-//         if(a[i]<num){
-//             count++;
-//         }
-//     }
-//     swap(&a[s],&a[count+1]);
-//     for(int i=s,j=e;i<count+1&&j>count+1;){
-//         if(a[i]<=num&&a[j]<num){
-//             i++;
-//             continue;
-//         }
-//         if(a[i]>num&&a[j]<=num){
-//             swap(&a[i++],&a[j--]);
-//             continue;
-//         }
-//         i++;
-//         j--;
-//     }
-//     return count+1;
-// }
 
 void quick_sort(int *input,int start,int end){
     if(start<end){
