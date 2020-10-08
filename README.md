@@ -9,3 +9,5 @@ Competitive Problems | C++
 - language tools
 - sorting searching
 - advanced recursion
+- backtracking
+- bit manipulation
