@@ -11,3 +11,4 @@ Competitive Problems | C++
 - advanced recursion
 - backtracking
 - bit manipulation
+- adhoc problems
