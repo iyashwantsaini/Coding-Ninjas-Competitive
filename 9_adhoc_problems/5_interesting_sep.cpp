@@ -61,5 +61,43 @@ int main() {
     for(int i=0;i<n;i++){
         cin>>seq[i];
     }
-    
+    if(n==1) {
+        cout<<0<<endl;
+    	return 0;
+    }
+    //find minel and maxel
+    int minel=INT_MAX,maxel=INT_MIN;
+    for(int i=0;i<n;i++){
+        if(seq[i]>maxel){
+            maxel=seq[i];
+        }
+        if(seq[i]<minel){
+            minel=seq[i];
+        }
+    }
+    //find min cost from minel to maxel
+    int mincost=INT_MAX;
+    for(int i=minel;i<=maxel;i++){
+        int curr_cost=0;
+        int noofincreases=0;
+        int noofdecreases=0;
+        for(int j=0;j<n;j++){
+            if(seq[j]<i){
+                noofincreases+=i-seq[j];
+            }
+            else if(seq[j]>i){
+                noofdecreases+=seq[j]-i;
+            }
+        }
+        if(noofdecreases>noofincreases){
+            continue;
+        }else{
+            curr_cost=noofdecreases*k+(noofincreases-noofdecreases)*l;
+            if(curr_cost<mincost){
+                mincost=curr_cost;
+            }
+        }
+    }
+    cout<<mincost<<endl;
+    return 0;
 }
