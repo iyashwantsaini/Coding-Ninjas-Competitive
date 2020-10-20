@@ -27,55 +27,104 @@ Sample Output:
 1
 */
 
-// bug_in_zero_consideration
-
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
+ll m=1000000007;
 
-// simple fn - exponential complexity
-// ll alpha_code(int n[],ll size){
+// simple fn - exponential complexity -TLE
+// ll alpha_code(ll n[],ll size){
 //     // base case
 //     if(size==0||size==1){
 //         return 1;
 //     }
 //     // rec case
-//     ll ans=alpha_code(n,size-1);
-//     if((n[size-2]*10+n[size-1])<=26){
-//         ans+=alpha_code(n,size-2);
+//     ll ans=0;
+//     if(n[size-1]!=0){
+//     	ans=alpha_code(n,size-1)%m;
+//     	if((n[size-2]*10+n[size-1])<=26){
+//         	if(n[size-2]!=0){
+//             	ans=(ans+alpha_code(n,size-2))%m;
+//         	}
+//     	}
+//         if(n[size-1]==0&&n[size-2]==0){
+//                 return 0;
+//         }
+//     }else{
+//        	if((n[size-2]*10+n[size-1])<=26){
+//             ans=(ans+alpha_code(n,size-2))%m;
+//         	}else{
+//                 return 0;
+//             }
+//             if(n[size-1]==0&&n[size-2]==0){
+//                 return 0;
+//             }
 //     }
 //     return ans;
 // }
 
 // recursive fn with storage
-// ll alpha_code(int *n,ll size,int *storage){
+// ll alpha_code(ll n[],ll size,ll storage[]){
 //     // base case
-//     if(size==0||size==1){
-//         return 1;
-//     }
-//     if(storage[size]>0){
+//     // if(size==0||size==1){
+//         // return 1;
+//     // }
+//     // rec case
+//     if(storage[size]!=-1){
 //         return storage[size];
 //     }
-//     // rec case
-//     ll output=alpha_code(n,size-1,storage);
-//     if((n[size-2]*10+n[size-1])<=26){
-//         output+=alpha_code(n,size-2,storage);
+//     ll ans=0;
+//     if(n[size-1]!=0){
+//     	ans=alpha_code(n,size-1,storage)%m;
+//     	if((n[size-2]*10+n[size-1])<=26){
+//         	if(n[size-2]!=0){
+//             	ans=(ans+alpha_code(n,size-2,storage))%m;
+//         	}
+//     	}
+//         if(n[size-1]==0&&n[size-2]==0){
+//                 return 0;
+//         }
+//     }else{
+//        	if((n[size-2]*10+n[size-1])<=26){
+//             ans=(ans+alpha_code(n,size-2,storage))%m;
+//         	}else{
+//                 return 0;
+//             }
+//             if(n[size-1]==0&&n[size-2]==0){
+//                 return 0;
+//             }
 //     }
-//     storage[size]=output;
-//     return output;
+//     storage[size]=ans;
+//     return ans;
 // }
 
 
 // iterative fn with storage
-ll alpha_code_iter(int n[],ll size){
-    int *storage=new int[size+1]{};
+ll alpha_code_iter(ll n[],ll size){
+    ll *storage=new ll[size+1]{};
     storage[0]=1;
     storage[1]=1;
     
     for(int i=2;i<=size;i++){
-        storage[i]=storage[i-1];
-        if((storage[i-2]*10+storage[i-1])<=26){
-            storage[i]+=storage[i-2];
+        if(n[i-1]!=0){
+        	storage[i]=storage[i-1]%m;
+        	if((n[i-2]*10+n[i-1])<=26){
+                if(n[i-2]!=0){
+            		storage[i]=(storage[i]+storage[i-2])%m;
+                }
+        	}
+            if(n[i-1]==0&&n[i-2]==0){
+                return 0;
+            }
+        }else{
+        	if((n[i-2]*10+n[i-1])<=26){
+            		storage[i]=storage[i-2]%m;
+        	}else{
+                return 0;
+            }
+            if(n[i-1]==0&&n[i-2]==0){
+                return 0;
+            }
         }
     }
     
@@ -87,33 +136,31 @@ ll alpha_code_iter(int n[],ll size){
 int main()
 {
     while(1){
-        ll n;
+        string n;
         cin>>n;
-        if(n==0){
+        if(n=="0"){
             return 0;
         }
-        ll size=0;
-        ll num=n;
-        while(num>0){
-            num/=10;
-            size++;
-        }
-        int *num_arr=new int[size+1]{};
-        for(int i=size-1;i>=0;i--){
-            num_arr[i]=n%10;
-            n/=10;
+        ll *num_arr=new ll[n.size()+1];
+        for(int i=0;i<n.size();i++){
+            num_arr[i]=n[i]-'0';
         }
         
         // simple
-        // cout<<alpha_code(num_arr,size)<<endl;
+        // cout<<alpha_code(num_arr,n.size())<<endl;
         
         // recursive
-        // int *storage=new int[size+1]{};
-        // cout<<alpha_code(num_arr,size,storage)<<endl;
+        // ll *storage=new ll[n.size()+1]{};
+        // storage[0]=1;
+        // storage[1]=1;
+        // for(int i=2;i<=n.size();i++){
+        //     storage[i]=-1;
+        // }
+        // cout<<alpha_code(num_arr,n.size(),storage)<<endl;
         // delete storage;
 
         // iterative
-        cout<<alpha_code_iter(num_arr,size)<<endl;
+        cout<<alpha_code_iter(num_arr,n.size())%m<<endl;
     }
     return 0;
 }
