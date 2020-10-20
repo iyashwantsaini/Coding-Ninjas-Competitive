@@ -12,3 +12,5 @@ Competitive Problems | C++
 - backtracking
 - bit manipulation
 - adhoc problems
+- modulo arithmetic
+- dynamic programming 1
