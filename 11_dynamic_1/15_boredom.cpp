@@ -20,12 +20,34 @@ Sample Output :
 using namespace std;
 
 int solve(int n,vector<int>A){
-  /* Don't write main().
-     Don't read input, it is passed as function argument.
-     Return output and don't print it.
-     Taking input and printing output is handled automatically.
-  */
-
+	// save freq of each element from 1 to n in A vector
+	int *freq=new int[1000+1]{};
+	for(int i=0;i<n;i++){
+		freq[A[i]]++;
+	}
+	// create a dp array for saving max value till each index
+	int *dp=new int[1000+1];
+	// max sum of 0 elements = 0
+	dp[0]=0;
+	// max sum of 1 element = freq of that element * element
+	dp[1]=1*freq[1];
+	for(int i=2;i<=1000;i++){
+		// if current value included in sum then i-1 th will not be included
+		int ifincluded=i*freq[i]+dp[i-2];
+		// else get value of i-1 th term 
+		int notincluded=dp[i-1];
+		dp[i]=max(ifincluded,notincluded);
+	}
+	// select max of all sums possible
+	int maxnum=INT_MIN;
+	for(int i=0;i<=1000;i++){
+		if(dp[i]>maxnum){
+			maxnum=dp[i];
+		}
+	}
+	delete dp;
+	delete freq;
+	return maxnum;
 }
 
 int n;

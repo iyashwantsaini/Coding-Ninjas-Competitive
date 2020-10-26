@@ -25,12 +25,37 @@ sample Output:
 using namespace std;
 
 int getMin(int *arr, int n){
-   /* Don't write main().
-      Don't read input, it is passed as function argument.
-      Return output and don't print it.
-      Taking input and printing output is handled automatically.
-   */
+    if(n==0||n==1){
+        return n;
+    }
+    int *chocs=new int[n];
 
+    // we have to check each element for left and right
+    // so we'll first check left then we'll check right
+
+    // starts checking left 
+    chocs[0]=1;
+    for(int i=1;i<n;i++){
+        if(arr[i]>arr[i-1]){
+            chocs[i]=1+chocs[i-1];
+        }else{
+            chocs[i]=1;
+        }
+    }
+    // start checking right
+    for(int i=n-2;i>=0;i--){
+        if(arr[i]>=arr[i+1]&&chocs[i]<=chocs[i+1]){
+            chocs[i]=1+chocs[i+1];
+        }
+    }
+
+    int totalchocs=0;
+    for(int i=0;i<n;i++){
+        totalchocs+=chocs[i];
+    }
+
+    delete chocs;
+    return totalchocs;
 }
 
 
