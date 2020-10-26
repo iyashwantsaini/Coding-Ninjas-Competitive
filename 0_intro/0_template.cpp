@@ -6,7 +6,8 @@ int main(){
     // used for fast IO
     ios_base::sync_with_stdio(false);cin.tie(NULL);
     // sets precision for required datatype
-    // cout.precision(numeric_limits<double>::max_digits10);
+    // float n=10.0;
+    // cout << fixed << setprecision(0) << n;
 
     // code
     
