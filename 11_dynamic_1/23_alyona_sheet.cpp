@@ -35,3 +35,68 @@ Yes
 Yes
 No
 */
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    // inputs
+    int n,m,k;
+    cin>>n>>m;
+    int table[n+1][m+1];
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=m;j++){
+            cin>>table[i][j];
+        }
+    }
+    cin>>k;
+
+    // logic
+    // we can take a 2D dp array
+    // in each index we'll save from which index to this current index is the column non decreasing
+    int dp[n+1][m+1]{};
+    // int 1st row all will be sorted from 1st row to 1st row
+    for(int i=1;i<=m;i++){
+        dp[1][i]=1;
+    }
+
+
+    // also take a 1d array to save the minimum of all rows
+    for(int i=2;i<=n;i++){
+        for(int j=1;j<=m;j++){
+            if(table[i][j]>=table[i-1][j]){
+                dp[i][j]=dp[i-1][j];
+            }else{
+                dp[i][j]=i;
+            }
+        }
+    }
+
+    // save min of each row in a array
+    int rowmin[n+1]{};
+    for(int i=1;i<=n;i++){
+        int minnum=INT_MAX;
+        for(int j=1;j<=m;j++){
+            if(dp[i][j]<minnum){
+                minnum=dp[i][j];
+            }
+        }
+        rowmin[i]=minnum;
+    }
+
+    while(k--){
+        int l,r;
+        cin>>l>>r;
+        if(rowmin[r]<=l){
+            cout<<"Yes"<<endl;
+        }else{
+            cout<<"No"<<endl;
+        }
+    }
+
+    return 0;
+}
