@@ -24,6 +24,19 @@ Sample Input
 9 7 11 15 5
 Sample Output
 13 7
+
+In
+10 1 8
+1 2 3 1 4 2 1 3 2 8
+Out
+12 1
+
+In
+10 2 8
+1 2 3 1 4 2 1 3 2 8
+Out
+12 0
+
 */
 
 #include<bits/stdc++.h>
@@ -40,8 +53,89 @@ int main(){
         cin>>s[i];
     }
 
+    int freq[1024+1]{};
     
+    // ATQ - n times do this op
+    // step 1 - sort the array in inc order
+    // step 2 - apply xor alternatively
+    // step 3 - resort array
 
+    // instead of applying xor and sorting again and again - use frequency array
+    // save counts of all elements in freq array
+    for(int i=0;i<n;i++){
+        freq[s[i]]++;
+    }
+
+    // for(int i=0;i<=1024;i++){
+    //     if(freq[i]!=0){
+    //         cout<<i<<" - "<<freq[i]<<" | ";
+    //     }
+    // }cout<<"\n";
+
+    // apply xor to each element based on previously covered elements
+    // if previously odd number of digits are covered - take xor of half of current element count
+    // if previously even number of digits are covered - take xor of (half+1) of current element count
+    int tillnow=0;
+    
+    int num_k=k;
+    while(k--){
+        int newfreq[1024+1]{};
+        tillnow=0;
+        for(int i=0;i<=1024;i++){
+            // till now even numbers are covered
+            if(tillnow%2==0){   
+                int xor_result=i^x;
+                // cout<<xor_result<<endl;
+                // save half+1 elements to new index
+                tillnow+=freq[i];
+                if(freq[i]>0){
+                    if(freq[i]%2!=0){
+                        newfreq[xor_result]+=(freq[i]/2)+1;
+                        freq[i]-=(freq[i]/2)+1;
+                    }else{
+                        newfreq[xor_result]+=(freq[i]/2);
+                        freq[i]-=(freq[i]/2);
+                    }
+                }
+            }
+            // odd are covered
+            else{
+                int xor_result=i^x;
+                // save half elements to new index
+                tillnow+=freq[i];
+                if(freq[i]>0){
+                    newfreq[xor_result]+=freq[i]/2;
+                    freq[i]-=freq[i]/2;
+                }  
+            }
+        }
+
+        for(int x=0;x<=1024;x++){
+            freq[x]+=newfreq[x];
+        }
+
+        // for(int x=0;x<=1024;x++){
+        //     if(freq[x]!=0){
+        //         cout<<x<<" - "<<freq[x]<<" | ";
+        //     }
+        // }cout<<"\n";
+        
+    }
+
+    int minnum,maxnum;
+    for(int i=0;i<=1024;i++){
+        if(freq[i]!=0){
+            minnum=i;
+            break;
+        }
+    }
+    for(int i=1024;i>=0;i--){
+        if(freq[i]!=0){
+            maxnum=i;
+            break;
+        }
+    }
+    cout<<maxnum<<" "<<minnum<<endl;
     return 0;
 }
 
