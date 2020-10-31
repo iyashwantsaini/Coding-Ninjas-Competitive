@@ -1,6 +1,6 @@
 # Competitive Master
 
-Competitive Problems | C++
+Coding Ninjas | Competitive Problems | C++
 
 - intro
 - recursion
@@ -14,4 +14,4 @@ Competitive Problems | C++
 - adhoc problems
 - modulo arithmetic
 - dynamic programming 1
-
+- dynamic programming 2
