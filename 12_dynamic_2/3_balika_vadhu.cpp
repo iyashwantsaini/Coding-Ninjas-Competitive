@@ -28,25 +28,40 @@ Sample Output
 using namespace std;
 typedef long long ll;
 
-ll lcs(string s1,string s2,int **storage,string &lcs_s){
+ll soln_rec(string s1,string s2,int k, int***storage){
+    int n=s1.length();
+    int m=s2.length();
+    
     // base cases
-    if(s1.length()==0||s2.length()==0){
+    if(k==0){
         return 0;
     }
-    // work already done
-    if(storage[s1.length()][s2.length()]>=0){
-        return storage[s1.length()][s2.length()];
+    if(n==0||m==0){
+        return INT_MIN;
     }
-    // 1st equal
-    if(s1[0]==s2[0]){
-        lcs_s.push_back(s1[0]);
-        ll ans=1+lcs(s1.substr(1),s2.substr(1),storage,lcs_s);
-        storage[s1.length()][s2.length()]=ans;
+    // work already done
+    if(storage[n][m][k]!=-1){
+        return storage[n][m][k];
+    }
+    // 1st not same
+    if(s1[0]!=s2[0]){
+        // possiblity 1 - s1's first not included
+        ll poss1=soln_rec(s1.substr(1),s2,k,storage);
+        // possiblity 1 - s1's first not included
+        ll poss2=soln_rec(s1,s2.substr(1),k,storage);
+        ll ans=max(poss1,poss2);
+        storage[n][m][k]=ans;
         return ans;
     }
-    // 1st not equal
-    ll ans=max( lcs(s1.substr(1),s2,storage,lcs_s) , lcs(s1,s2.substr(1),storage,lcs_s) );
-    storage[s1.length()][s2.length()]=ans;
+    // 1st same
+    // possibility 1 - num is included, so add the ascii to result - no i need k-1 more results
+    ll poss1=s1[0]+soln_rec(s1.substr(1),s2.substr(1),k-1,storage);
+    // possibility 2 - num is not included, s1's first not included
+    ll poss2=soln_rec(s1.substr(1),s2,k,storage);
+    // possibility 1 - num is not included, s2's first not included
+    ll poss3=soln_rec(s1,s2.substr(1),k,storage);
+    ll ans=max(poss1,max(poss2,poss3));
+    storage[n][m][k]=ans;
     return ans;
 }
 
@@ -60,41 +75,112 @@ int main()
         int k;
         cin>>s1>>s2>>k;
         
-        int **storage=new int*[s1.length()+1];
+        int ***storage=new int**[s1.length()+1];
         for(int i=0;i<=s1.length();i++){
-            storage[i]=new int[s2.length()+1];
+            storage[i]=new int*[s2.length()+1];
+            for(int j=0;j<=s2.length();j++){
+                storage[i][j]=new int[k+1];
+            }
         }
         for(int i=0;i<=s1.length();i++){
             for(int j=0;j<=s2.length();j++){
-                storage[i][j]=-1;
+                for(int x=0;x<=k;x++){
+                    storage[i][j][x]=-1;
+                }
             }
         }
 
-        // this will save the lcs
-        string lcs_s;
-
-        ll lcs_l=lcs(s1,s2,storage,lcs_s);
-        
-        // cout<<lcs_s<<endl;
-        
-        if(lcs_l<k){
-            cout<<0<<endl;
-        }else{
-			
-            sort(lcs_s.begin(),lcs_s.end());
-            ll ans=0;
-            for(int i=0;i<k;i++){
-                ans+=lcs_s[(lcs_s.length()-1)-i];
-            }
-
-            cout<<ans<<endl;
-        }
+        ll ans=soln_rec(s1,s2,k,storage);
 
         for(int i=0;i<=s1.length();i++){
+            for(int j=0;j<=s2.length();j++){
+                delete storage[i][j];
+            }
             delete storage[i];
         }
         delete storage;
+        
+		if(ans<0){
+            cout<<0<<endl;
+        }else{
+            cout<<ans<<endl;
+        }
 
     }
     return 0;
 }
+
+
+
+// my initial soln - working only for some test cases due to recursion
+
+// ll lcs(string s1,string s2,int **storage,string &lcs_s){
+//     // base cases
+//     if(s1.length()==0||s2.length()==0){
+//         return 0;
+//     }
+//     // work already done
+//     if(storage[s1.length()][s2.length()]>=0){
+//         return storage[s1.length()][s2.length()];
+//     }
+//     // 1st equal
+//     if(s1[0]==s2[0]){
+//         lcs_s.push_back(s1[0]);
+//         ll ans=1+lcs(s1.substr(1),s2.substr(1),storage,lcs_s);
+//         storage[s1.length()][s2.length()]=ans;
+//         return ans;
+//     }
+//     // 1st not equal
+//     ll ans=max( lcs(s1.substr(1),s2,storage,lcs_s) , lcs(s1,s2.substr(1),storage,lcs_s) );
+//     storage[s1.length()][s2.length()]=ans;
+//     return ans;
+// }
+
+// int main()
+// {
+//     int t;
+//     cin>>t;
+//     while(t--){
+        
+//         string s1,s2;
+//         int k;
+//         cin>>s1>>s2>>k;
+        
+//         int **storage=new int*[s1.length()+1];
+//         for(int i=0;i<=s1.length();i++){
+//             storage[i]=new int[s2.length()+1];
+//         }
+//         for(int i=0;i<=s1.length();i++){
+//             for(int j=0;j<=s2.length();j++){
+//                 storage[i][j]=-1;
+//             }
+//         }
+
+//         // this will save the lcs
+//         string lcs_s;
+
+//         ll lcs_l=lcs(s1,s2,storage,lcs_s);
+        
+//         // cout<<lcs_s<<endl;
+        
+//         if(lcs_l<k){
+//             cout<<0<<endl;
+//         }else{
+			
+//             sort(lcs_s.begin(),lcs_s.end());
+//             ll ans=0;
+//             for(int i=0;i<k;i++){
+//                 ans+=lcs_s[(lcs_s.length()-1)-i];
+//             }
+
+//             cout<<ans<<endl;
+//         }
+
+//         for(int i=0;i<=s1.length();i++){
+//             delete storage[i];
+//         }
+//         delete storage;
+
+//     }
+//     return 0;
+// }
