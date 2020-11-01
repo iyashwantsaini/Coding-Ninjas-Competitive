@@ -36,6 +36,8 @@ ll soln_rec(string s1,string s2,int k, int***storage){
     if(k==0){
         return 0;
     }
+    // if k!=0, and 1 string is empty already then ATQ ans should be 0
+    // so we return INT_MIN ans will check it in main
     if(n==0||m==0){
         return INT_MIN;
     }

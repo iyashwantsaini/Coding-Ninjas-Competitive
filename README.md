@@ -1,6 +1,6 @@
-# Competitive Master
+# Coding Ninjas | Competitive Programming
 
-Coding Ninjas | Competitive Problems | C++
+Coding Ninjas | Competitive Programming | C++
 
 - intro
 - recursion
