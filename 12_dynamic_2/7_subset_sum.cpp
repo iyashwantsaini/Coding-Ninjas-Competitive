@@ -17,6 +17,10 @@ Yes
 #include <bits/stdc++.h>
 using namespace std;
 
+// to reduce storage we can use only 2 rows dp array
+// this is memory optimization just like in knapsack
+// XOR can be used to toggle
+
 bool subset_sum(int n,int s,int *el,bool **dp){
     // fill first row | n=0
     for(int i=1;i<=s;i++){
