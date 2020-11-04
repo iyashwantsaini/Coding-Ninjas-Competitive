@@ -15,3 +15,4 @@ Coding Ninjas | Competitive Programming | C++
 - modulo arithmetic
 - dynamic programming 1
 - dynamic programming 2
+- greedy problems
