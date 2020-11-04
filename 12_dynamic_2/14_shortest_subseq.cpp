@@ -23,7 +23,7 @@ ll helper(string S,string V,int **dp){
     int m=V.length();
     // base cases
     if(n==0){
-        return 1001;
+        return 10000;
     }
     if(m<=0){
         return 1;
@@ -45,6 +45,11 @@ ll helper(string S,string V,int **dp){
         if(S[0]==V[index]){
             break;
         }
+    }
+    
+    //if after including both becomes 0
+    if(index==m&&n-1==0){
+        return 1000000;
     }
     // if num is not found in string, then 1 option in possible
     if(index==m){
