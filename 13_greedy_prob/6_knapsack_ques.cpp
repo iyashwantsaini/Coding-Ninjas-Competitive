@@ -24,7 +24,7 @@ typedef long long ll;
 
 //our main priority is time
 bool compare(ll w1[3],ll w2[3]){
-    //if time is same
+    //if time is same 
     if(w1[0]==w2[0]){
         //if speed is same
         if(w1[2]==w2[2]){
