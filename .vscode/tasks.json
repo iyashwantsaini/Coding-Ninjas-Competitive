@@ -4,10 +4,10 @@
       {
         "type": "shell",
         "label": "g++.exe build active file",
-        "command": "D:\\MINGW\\bin\\g++.exe",
+        "command": "C:\\MINGW\\bin\\g++.exe",
         "args": ["-g", "${file}", "-o", "${fileDirname}\\${fileBasenameNoExtension}.exe"],
         "options": {
-          "cwd": "D:\\MINGW\\lib\\bin"
+          "cwd": "C:\\MINGW\\lib\\bin"
         },
         "problemMatcher": ["$gcc"],
         "group": {
