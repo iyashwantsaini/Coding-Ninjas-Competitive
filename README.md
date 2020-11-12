@@ -16,3 +16,4 @@ Coding Ninjas | Competitive Programming | C++
 - dynamic programming 1
 - dynamic programming 2
 - greedy problems
+- segment tree
