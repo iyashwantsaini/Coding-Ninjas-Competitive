@@ -1,4 +1,4 @@
-// build a segment tree
+// build,update,query a segment tree
 
 #include<bits/stdc++.h>
 using namespace std;
@@ -18,6 +18,7 @@ void buildtree(int arr[],int *tree,int s,int e,int i){
     tree[i]=tree[i*2]+tree[i*2+1];
 }
 
+// log(n)
 // i = index of starting of filling in tree array, initially 1
 // index = index in array, val=value of array
 void updatetree(int arr[],int *tree,int s,int e,int i,int index,int val){
@@ -40,6 +41,25 @@ void updatetree(int arr[],int *tree,int s,int e,int i,int index,int val){
     tree[i]=tree[i*2+1]+tree[i*2];
 }
 
+// log(n)
+// i=starting of indexing in tree, initially (root) = 1
+int querytree(int *tree,int s,int e,int i,int l,int r){
+    // 3 cases possible
+    // completely outside the given range
+    if(s>r||e<l){
+        return 0;
+    }
+    // completely inside the given range
+    if(s>=l&&e<=r){
+        return tree[i];
+    }
+    // partially inside, partially outside the given range
+    int mid=(s+e)/2;
+    int leftans=querytree(tree,s,mid,2*i,l,r);
+    int rightans=querytree(tree,mid+1,e,2*i+1,l,r);
+    return leftans+rightans;
+}
+
 void viewtree(int *tree,int n){
     // as we have saved starting from 1st index
     for(int i=1;i<2*n;i++){
@@ -58,11 +78,14 @@ int main(){
     viewtree(tree,n);
     
     // update the array at arr[2]=10, so update the tree respectively
-    // start the tree filling from 1st index
+    // start the tree filling from 1st index, root=1
     updatetree(arr,tree,0,4,1,2,10);
     viewtree(tree,n);
 
-
+    // get sum of arr[2] to arr[4] | both included
+    // l=2,r=4
+    int q=querytree(tree,0,4,1,2,4);
+    cout<<q<<endl;
 
     delete tree;
     return 0;
