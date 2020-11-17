@@ -27,7 +27,7 @@ Output:
 using namespace std;
 typedef long long ll;
 
-void update(int *tree,int *lazy,int s,int e,int i,int l,int r,int v){
+void update(ll *tree,ll *lazy,ll s,ll e,ll i,ll l,ll r,ll v){
     if(s>e){
         return;
     }
@@ -56,13 +56,13 @@ void update(int *tree,int *lazy,int s,int e,int i,int l,int r,int v){
         return;
     }
     // partial
-    int mid=(s+e)/2;
+    ll mid=(s+e)/2;
     update(tree,lazy,s,mid,i*2,l,r,v);
     update(tree,lazy,mid+1,e,i*2+1,l,r,v);
     tree[i]=tree[i*2]+tree[i*2+1];
 }
 
-int query(int *a,int *tree,int *lazy,int s,int e,int i,int l,int r){
+ll query(ll *tree,ll *lazy,ll s,ll e,ll i,ll l,ll r){
     if(s>e){
         return 0;
     }
@@ -85,32 +85,31 @@ int query(int *a,int *tree,int *lazy,int s,int e,int i,int l,int r){
         return tree[i];
     }
     // partial
-    int mid=(s+e)/2;
-    int left=query(a,tree,lazy,s,mid,i*2,l,r);
-    int right=query(a,tree,lazy,mid+1,e,i*2+1,l,r);
+    ll mid=(s+e)/2;
+    ll left=query(tree,lazy,s,mid,i*2,l,r);
+    ll right=query(tree,lazy,mid+1,e,i*2+1,l,r);
     return left+right;
 }
 
 int main(){
-    int t;
+    ll t;
     cin>>t;
     while(t--){
-        int n,c;
+        ll n,c;
         cin>>n>>c;
-        int *a=new int[n+1]{};
-        int *tree=new int[4*n]{};
-        int *lazy=new int[4*n]{};
+        ll *tree=new ll[3*n]{};
+        ll *lazy=new ll[3*n]{};
         while(c--){
-            int qtype;
+            ll qtype;
             cin>>qtype;
             if(qtype==0){
-                int p,q,v;
+                ll p,q,v;
                 cin>>p>>q>>v;
                 update(tree,lazy,1,n,1,p,q,v);
             }else{
-                int p,q;
+                ll p,q;
                 cin>>p>>q;
-                int ans=query(a,tree,lazy,1,n,1,p,q);
+                ll ans=query(tree,lazy,1,n,1,p,q);
                 cout<<ans<<"\n";
             }
         }
