@@ -27,7 +27,93 @@ Output:
 using namespace std;
 typedef long long ll;
 
+void update(int *tree,int *lazy,int s,int e,int i,int l,int r,int v){
+    if(s>e){
+        return;
+    }
+    // if lazy updation remaining
+    if(lazy[i]!=0){
+        tree[i]+=(e-s+1)*lazy[i];
+        if(s!=e){
+            lazy[i*2]+=lazy[i];
+            lazy[i*2+1]+=lazy[i];
+        }
+        lazy[i]=0;
+    }
+    // 3 cases
+    // out
+    if(l>e||r<s){
+        return;
+    }
+    // in
+    if(s>=l&&e<=r){
+        tree[i]+=(e-s+1)*v;
+        if(s!=e){
+            lazy[i*2]+=v;
+            lazy[i*2+1]+=v;
+        }
+        lazy[i]=0;
+        return;
+    }
+    // partial
+    int mid=(s+e)/2;
+    update(tree,lazy,s,mid,i*2,l,r,v);
+    update(tree,lazy,mid+1,e,i*2+1,l,r,v);
+    tree[i]=tree[i*2]+tree[i*2+1];
+}
+
+int query(int *a,int *tree,int *lazy,int s,int e,int i,int l,int r){
+    if(s>e){
+        return 0;
+    }
+    // check for lazy updation
+    if(lazy[i]!=0){
+        tree[i]+=(e-s+1)*lazy[i];
+        if(s!=e){
+            lazy[i*2]+=lazy[i];
+            lazy[i*2+1]+=lazy[i];
+        }
+        lazy[i]=0;
+    }
+    // 3 cases
+    // out
+    if(l>e||r<s){
+        return 0;
+    }
+    // in
+    if(s>=l&&e<=r){
+        return tree[i];
+    }
+    // partial
+    int mid=(s+e)/2;
+    int left=query(a,tree,lazy,s,mid,i*2,l,r);
+    int right=query(a,tree,lazy,mid+1,e,i*2+1,l,r);
+    return left+right;
+}
+
 int main(){
-    
+    int t;
+    cin>>t;
+    while(t--){
+        int n,c;
+        cin>>n>>c;
+        int *a=new int[n+1]{};
+        int *tree=new int[4*n]{};
+        int *lazy=new int[4*n]{};
+        while(c--){
+            int qtype;
+            cin>>qtype;
+            if(qtype==0){
+                int p,q,v;
+                cin>>p>>q>>v;
+                update(tree,lazy,1,n,1,p,q,v);
+            }else{
+                int p,q;
+                cin>>p>>q;
+                int ans=query(a,tree,lazy,1,n,1,p,q);
+                cout<<ans<<"\n";
+            }
+        }
+    }
     return 0;
 }
