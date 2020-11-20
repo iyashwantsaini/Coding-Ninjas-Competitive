@@ -18,7 +18,3 @@ Coding Ninjas | Competitive Programming | C++
 - greedy problems
 - segment tree
 - graphs 1
-
-## Observations
-
-- dynamic array better than string passing

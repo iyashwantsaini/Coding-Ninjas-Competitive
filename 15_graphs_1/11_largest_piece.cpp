@@ -16,25 +16,72 @@ Sample Output 1:
 3
 */
 
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
 
+int dfs_run(vector<vector<int>> &cake,int n,int **visited,int i,int j){
+    // cout<<i<<" "<<j<<endl;
+    visited[i][j]=1;
+    // check left
+    int ans=0;
+    if(j-1>=0){
+        if(cake[i][j-1]==1&&visited[i][j-1]==0){
+            ans+=dfs_run(cake,n,visited,i,j-1);
+        }
+    }
+    // check right
+    if(j+1<n){
+        if(cake[i][j+1]==1&&visited[i][j+1]==0){
+            ans+=dfs_run(cake,n,visited,i,j+1);
+        }
+    }
+    // check top
+    if(i-1>=0){
+        if(cake[i-1][j]==1&&visited[i-1][j]==0){
+            ans+=dfs_run(cake,n,visited,i-1,j);
+        }
+    }
+    // check bottom
+    if(i+1<n){
+        if(cake[i+1][j]==1&&visited[i+1][j]==0){
+            ans+=dfs_run(cake,n,visited,i+1,j);
+        }
+    }
+    // visited[i][j]=0;
+    return 1+ans;
+}
+
 int getBiggestPieceSize(vector<vector<int>> &cake, int n) {
+    // cout<<"\n\n";
     // Write your code here
+    int **visited=new int*[n];
+    for(int i=0;i<n;i++){
+        visited[i]=new int[n]{};
+    }
+    int max_piece=INT_MIN;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            if(cake[i][j]==1&&visited[i][j]==0){
+                visited[i][j]=1;
+                int ans=dfs_run(cake,n,visited,i,j);
+                if(ans>max_piece){
+                    max_piece=ans;
+                }
+                // visited[i][j]=0;
+            }
+        }
+    }
+    return max_piece;
 }
 
 int main() {
     int n;
     cin >> n;
-
     vector<vector<int>> cake(n, vector<int>(n));
-
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             cin >> cake[i][j];
         }
     }
-
     cout << getBiggestPieceSize(cake, n);
 }

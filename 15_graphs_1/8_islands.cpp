@@ -25,3 +25,43 @@ Sample Output 1:
 1 
 */
 
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+
+void dfs_traversal(int **aj,int v,int *visited,int start){
+    visited[start]=1;
+    for(int i=0;i<v;i++){
+        if(aj[start][i]==1){
+            if(visited[i]==0){
+                dfs_traversal(aj,v,visited,i);
+            }
+        }
+    }
+}
+
+int main(){
+    int v,e;
+    cin>>v>>e;
+    int **aj=new int*[v];
+    for(int i=0;i<v;i++){
+        aj[i]=new int[v];
+    }
+    while(e--){
+        int a,b;
+        cin>>a>>b;
+        aj[a][b]=1;
+        aj[b][a]=1;
+    }
+    int *visited=new int[v]{};
+    int count=0;
+    // counting number of groups
+    for(int i=0;i<v;i++){
+        if(visited[i]==0){
+            dfs_traversal(aj,v,visited,i);
+            count++;
+        }
+    }
+    cout<<count<<"\n";
+    return 0;
+}

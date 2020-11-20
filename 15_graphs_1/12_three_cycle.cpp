@@ -23,6 +23,43 @@ Sample Output 1:
 #include <iostream>
 using namespace std;
 
+int get_count(int **aj,int n){
+    int count=0;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            // check path between i-j
+            if(aj[i][j]==1){
+                for(int k=0;k<n;k++){
+                    // check path between j-k , k-i
+                    if(aj[j][k]==1&&aj[k][i]==1){
+                        count++;
+                    }
+                }
+            }
+        }
+    }
+    // as each cycle will be found 6 times in differnet combinations
+    // i j k
+    // i k j
+    // j k i
+    // j i k
+    // k i j
+    // k j i
+    return count/6;
+}
+
 int main() {
-    // Write your code here
+    int n,m;
+    cin>>n>>m;
+    int **aj=new int*[n];
+    for(int i=0;i<n;i++){
+        aj[i]=new int[n]{};
+    }
+    while(m--){
+        int a,b;
+        cin>>a>>b;
+        aj[a][b]=1;
+        aj[b][a]=1;
+    }
+    cout<<get_count(aj,n);
 }
