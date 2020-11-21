@@ -52,12 +52,12 @@ int get_parent(int current_vertex, int *parents){
 }
 
 // go to the topmost parent of 1st vertex and set its parent as second vertex
-void set_parent(int p1, int *parents,int p2){
-	if (p1 == parents[p1]){
-		parents[p1]=p2;
+void set_parent(int v1, int *parents,int v2){
+	if (v1 == parents[v1]){
+		parents[v1]=v2;
         return;
 	}
-	return set_parent(parents[p1], parents,p2);
+	return set_parent(parents[v1], parents,v2);
 }
 
 int main() {
@@ -102,8 +102,9 @@ int main() {
         // if parents are different means we can include this edge in the output
         if(p1!=p2){
             mst[count]=current;
-            // set top most parent of p1 to p2 (we could have set topmost parent of p2 to p1)
-            set_parent(p1,parents,p2);
+            // set top most parent of v1 to v2 (we could have set topmost parent of v2 to v1)
+            // set_parent(current.ei,parents,current.ej);
+            parents[p1]=p2;
             count++;
         }
     }
