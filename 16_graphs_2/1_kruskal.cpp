@@ -38,15 +38,26 @@ class edge{
         int wt;
 };
 
+// sort on basis of weights
 bool compare(edge e1,edge e2){
     return e1.wt<e2.wt;
 }
 
+// go to the top most parent and return it
 int get_parent(int current_vertex, int *parents){
 	if (current_vertex == parents[current_vertex]){
 		return current_vertex;
 	}
 	return get_parent(parents[current_vertex], parents);
+}
+
+// go to the topmost parent of 1st vertex and set its parent as second vertex
+void set_parent(int p1, int *parents,int p2){
+	if (p1 == parents[p1]){
+		parents[p1]=p2;
+        return;
+	}
+	return set_parent(parents[p1], parents,p2);
 }
 
 int main() {
@@ -66,32 +77,37 @@ int main() {
     // }
     // cout<<"\n\n";
     
+    // parents array to store parents of each element
     int *parents=new int[v];
+    // initially all elements will be parents of themselves
     for(int i=0;i<v;i++){
         parents[i]=i;
     }
 
+    // output to return
     edge *mst=new edge[v-1];
     int count=0;
 
+    // while required v-1 edges are not obtained, run the loop
     for(int i=0;i<e;i++){
         if(count>=v-1){
             break;
         }
 
         edge current=edges[i];
+        // get topmost parents of both vertices
         int p1 = get_parent(current.ei, parents);
 		int p2 = get_parent(current.ej, parents);
 
-        // int p1=parents[v1];
-        // int p2=parents[v2];
-
+        // if parents are different means we can include this edge in the output
         if(p1!=p2){
             mst[count]=current;
-            parents[p1]=p2;
+            // set top most parent of p1 to p2 (we could have set topmost parent of p2 to p1)
+            set_parent(p1,parents,p2);
             count++;
         }
     }
+    // printing in required format
     for(int i=0;i<v-1;i++){
         if(mst[i].ei<mst[i].ej){
             cout<<mst[i].ei<<" "<<mst[i].ej<<" "<<mst[i].wt<<"\n";
