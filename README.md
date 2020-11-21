@@ -18,3 +18,4 @@ Coding Ninjas | Competitive Programming | C++
 - greedy problems
 - segment tree
 - graphs 1
+- graphs 2
