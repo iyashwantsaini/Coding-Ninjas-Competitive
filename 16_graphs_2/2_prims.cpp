@@ -77,14 +77,14 @@ int main(){
         visited[minvertex]=1;
 
         // explore all the possible neighbours from this vertex and update parent and new weights of these vertices
-        for(int i=0;i<v;i++){
+        for(int j=0;j<v;j++){
             // checking if there is some vertex connected to min vertex
             // proceed only if its not visited
-            if(aj[minvertex][i]!=0&&visited[i]==0){
+            if(aj[minvertex][j]!=0&&visited[j]==0){
                 // update weight if the new weight is better than previous
-                if(weight[i]>aj[minvertex][i]){
-                    weight[i]=aj[minvertex][i];
-                    parent[i]=minvertex;
+                if(weight[j]>aj[minvertex][j]){
+                    weight[j]=aj[minvertex][j];
+                    parent[j]=minvertex;
                 }
             }
         }
