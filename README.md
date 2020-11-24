@@ -19,3 +19,4 @@ Coding Ninjas | Competitive Programming | C++
 - segment tree
 - graphs 1
 - graphs 2
+- advanced graphs
