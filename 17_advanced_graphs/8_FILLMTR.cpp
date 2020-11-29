@@ -41,6 +41,10 @@ yes
 no
 */
 
+// https://www.codechef.com/SEPT17/problems/FILLMTR
+// https://www.youtube.com/watch?v=WKUJvVJEsBM
+// still incomplete
+
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -50,15 +54,53 @@ int main(){
     while(t--){
         int n,q;
         cin>>n>>q;
-        int **B=new int*[n+1];
+        int **b=new int*[n+1];
         for(int i=0;i<=n;i++){
-            B[i]=new int[n+1]{};
+            b[i]=new int[n+1];
+            for(int j=0;j<=n;j++){
+                b[i][j]=-1;
+            }
         }
         while(q--){
             int i,j,val;
             cin>>i>>j>>val;
-            B[i][j]=val;
+            b[i][j]=val;
         }
+
+
+        // basic sanity checks
+        // diagonals must be all 0 as a->a distance is always 0
+        int flag=1;
+        for(int i=1;i<=n;i++){
+            if(b[i][i]==1){
+                flag=0;
+                break;
+            }
+        }
+        if(flag==0){
+            cout<<"no\n";
+            continue;
+        }
+        flag=1;
+        // b[i][j] and b[j][i] must have the same value for A to exist
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=n;j++){
+                if(b[i][j]!=b[j][i]){
+                    flag=0;
+                    break;
+                }
+            }
+            if(flag==0){
+                break;
+            }
+        }
+        if(flag==0){
+            cout<<"no\n";
+            continue;
+        }
+
+        
+
     }
     return 0;
 }
