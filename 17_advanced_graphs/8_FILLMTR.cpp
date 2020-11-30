@@ -43,64 +43,89 @@ no
 
 // https://www.codechef.com/SEPT17/problems/FILLMTR
 // https://www.youtube.com/watch?v=WKUJvVJEsBM
-// still incomplete
+
+/* Steps
+- check diagonals - all must be 0
+- if a[i][j] & a[j][i] are not empty then they both must have same value
+- make sets on basis of which all vertices have 0 as distance between them (equal valued vertices) using union find algorithm
+    - each set can be be represented by a single number
+- make edges between these sets based on 1 values
+- no odd vertice cycle must exist - for this check if the new generated graph is bipartite or not
+- if any of the conflict occurs print "NO" else print "YES" 
+*/
+
+/*
+- method 2
+- as this is a 2 color graph problem - black and white
+- start coloring the first uncolored vertex with 0
+- for all other vertices check if coloring is possible or not
+*/
 
 #include<bits/stdc++.h>
 using namespace std;
+
+bool paint(int v,int c,int *color,vector<pair<int,int>> *g ){
+    // case 1 = if already colored with same color - possible
+    if(color[v]==c){
+        return true;
+    }
+    // case 2 = if already colored with diff colored than required - not possible
+    if(color[v]!=-1){
+        return false;
+    }
+    // case 3 = not colored
+    color[v]=c;
+
+    // now color the adjacent vertices of the current vertex
+    for(auto i=g[v].begin();i!=g[v].end();i++){
+        // check if painting possible
+        // must be painted with diff color than the current
+        if(!paint(i->first,(c+i->second)%2,color,g)){
+            return false;
+        }
+    } 
+    // if all can be painted
+    return true;
+}
+
+void solve(){
+    int n,q;
+    cin>>n>>q;
+
+    // pair will store - (i),(j,val)
+    vector<pair<int,int>> *g=new vector<pair<int,int>>[n+1];
+    // to store colors of all vertices
+    int *color=new int[n+1];
+    for(int i=1;i<=n;i++){
+        color[i]=-1;
+    }
+
+    // ATQ if i is connected by j then j is also connected by i with same value
+    while(q--){
+        int i,j,val;
+        cin>>i>>j>>val;
+        g[i].push_back(make_pair(j,val));
+        g[j].push_back(make_pair(i,val));
+    }
+
+    for(int i=1;i<=n;i++){
+        // if vertex in uncolored, color it if possible
+        if(color[i]==-1){
+            // if coloring is not possible - conflict 
+            if(!paint(i,0,color,g)){
+                cout<<"no\n";
+                return;
+            }
+        }
+    }
+    cout<<"yes\n";
+}
 
 int main(){
     int t;
     cin>>t;
     while(t--){
-        int n,q;
-        cin>>n>>q;
-        int **b=new int*[n+1];
-        for(int i=0;i<=n;i++){
-            b[i]=new int[n+1];
-            for(int j=0;j<=n;j++){
-                b[i][j]=-1;
-            }
-        }
-        while(q--){
-            int i,j,val;
-            cin>>i>>j>>val;
-            b[i][j]=val;
-        }
-
-
-        // basic sanity checks
-        // diagonals must be all 0 as a->a distance is always 0
-        int flag=1;
-        for(int i=1;i<=n;i++){
-            if(b[i][i]==1){
-                flag=0;
-                break;
-            }
-        }
-        if(flag==0){
-            cout<<"no\n";
-            continue;
-        }
-        flag=1;
-        // b[i][j] and b[j][i] must have the same value for A to exist
-        for(int i=1;i<=n;i++){
-            for(int j=1;j<=n;j++){
-                if(b[i][j]!=b[j][i]){
-                    flag=0;
-                    break;
-                }
-            }
-            if(flag==0){
-                break;
-            }
-        }
-        if(flag==0){
-            cout<<"no\n";
-            continue;
-        }
-
-        
-
+        solve();
     }
     return 0;
 }
