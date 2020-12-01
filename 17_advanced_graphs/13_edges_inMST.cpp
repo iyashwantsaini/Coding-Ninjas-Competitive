@@ -46,3 +46,160 @@ In the second sample the MST is unique for the given graph: it contains two firs
 In the third sample any two edges form the MST for the given graph. That means that each edge is included at least in one MST.
 */
 
+#include<bits/stdc++.h>
+using namespace std;
+
+class edge{
+    public:
+        int ei,ej,wt,index;
+        string arg="at least one";
+};
+
+bool sortcost(edge e1,edge e2){
+    e1.wt<e2.wt;
+}
+
+bool sortindex(edge e1,edge e2){
+    e1.wt<e2.wt;
+}
+
+int find_parent(int num,int *parents){
+    if(num==parents[num]){
+        return num;
+    }
+    return find_parent(parents[num],parents);
+}
+
+void do_dfs(int n,int *parents,int *visited){
+    visited[n]=1;
+    if(n==parents[n]){
+        return;
+    }
+    do_dfs(parents[n],parents,visited);
+}
+
+int dfs(int n,int*parents,int *visited){
+    int count=0;
+    for(int i=0;i<n;i++){
+        if(visited[i]==0){
+            count++;
+            do_dfs(i,parents,visited);
+        }
+    }
+    return count;
+}
+
+int main(){
+    int n,m;
+    cin>>n>>m;
+    edge *edges=new edge[m];
+    for(int i=0;i<m;i++){
+        int x,y,wt;
+        cin>>x>>y>>wt;
+        edges[i].ei=x;
+        edges[i].ej=y;
+        edges[i].wt=wt;
+        edges[i].index=i;
+    }
+    sort(edges,edges+m,sortcost);
+    
+    int *parents=new int[n+1];
+    for(int i=0;i<=n;i++){
+        parents[i]=i;
+    }
+    int count=0;
+    int *rank=new int[n+1]{};
+    int *visited=new int[n+1]{};
+
+    for(int i=0;i<m-1;i++){
+
+        // count the number of edges of this similar weight
+        int j; 
+        for(j=i+1;j<m-1;j++){
+            if(edges[i].wt==edges[j].wt){
+                j++;
+            }else{
+                break;
+            }
+        }
+
+
+        // if single element take single decision
+        if((j-i)==1){
+            edge e=edges[i];
+            int p1=find_parent(e.ei,parents);
+            int p2=find_parent(e.ej,parents);
+            // find if cycle is being formed
+            if(p1==p2){
+                edges[i].arg="none";
+            }else{
+                int before=dfs(n,parents,visited);
+                if(rank[p1]<=rank[p2]){
+                    parents[p1]=p2;
+                    rank[p2]++;
+                }else{
+                    parents[p2]=p1;
+                    rank[p1]++;
+                }
+                int after=dfs(n,parents,visited);
+                if(before!=after){
+                    edges[i].arg="any";
+                }
+            }
+            i=j;
+            continue;
+        }
+
+        // find parents of all the similar weight elements 
+        vector<pair<int,pair<int,int>>> par;
+        for(int x=i;x<j;x++){
+            edge e=edges[x];
+            int p1=find_parent(e.ei,parents);
+            int p2=find_parent(e.ej,parents);
+            // find if cycle is being formed
+            if(p1==p2){
+                edges[i].arg="none";
+            }else{
+                par.push_back(make_pair(x,make_pair(max(p1,p2),min(p1,p2))));
+            }
+        }
+
+        // find the args
+        // ma to store occurances of same parents
+        map<int,int> p;
+        for(auto x=par.begin();x!=par.end();x++){
+			p[x->second.first]++;
+            p[x->second.second]++;
+        }
+
+        int flag=0;
+        for(auto x=p.begin();x!=p.end();x++){
+            if(x->second>1){
+                flag=1;
+            }
+        }
+
+        if(flag==0){
+            int done=0;
+            for(auto x=par.begin();x!=par.end();x++){
+                if(done==0){
+                    
+                }
+            }
+        }else{
+            for(auto x=par.begin();x!=par.end();x++){
+                
+            }
+        }
+
+        // move to next non equal cost
+        i=j;
+    }
+
+    sort(edges,edges+m,sortindex);
+    for(int i=0;i<m;i++){
+        cout<<edges[i].arg<<"\n";
+    }
+
+    return 0;
+}
