@@ -129,3 +129,95 @@ int main(){
     }
     return 0;
 }
+
+
+// sir's solution
+// #include<bits/stdc++.h>
+// #include<vector>
+// #include<unordered_set>
+// #include<map>
+// using namespace std;
+
+// bool isBipartite(vector<int> *edges,int n){
+// 	if(n==0) return true;
+// 	unordered_set<int> sets[2];
+// 	vector<int> pendingvertices;
+	
+// 	sets[0].insert(0);
+// 	pendingvertices.push_back(0);
+// 	while(pendingvertices.size()>0){
+// 		int current=pendingvertices[pendingvertices.size()-1];
+// 		pendingvertices.pop_back();
+// 		int current_set=sets[0].count(current)>0 ? 0 : 1;
+		
+// 		for(int i=0;i<edges[current].size();i++){
+// 			int neighbour=edges[current][i];
+// 			if(sets[0].count(neighbour)==0 && sets[1].count(neighbour)==0){
+// 				sets[1-current_set].insert(neighbour);
+// 				pendingvertices.push_back(neighbour);
+// 			}
+// 			else if(sets[current_set].count(neighbour)>0){
+// 				return false;
+// 			}
+// 		}
+// 	}
+// 	return true;
+	
+// }
+
+// int main()
+// {
+//     int t;
+//     cin>>t;
+//     while(t--)
+//     {
+//     	int n;
+//     	int e;
+//     	cin>>n>>e;
+        
+//     	vector<int> *edges=new vector<int>[n];
+        
+// 		map<int,map<int,int> >m;
+        
+// 		bool ans = true;
+
+//         for(int i=0;i<e;i++)
+//         {
+//             int a,b,c;
+//             cin >> a >> b >> c;
+//             a=a-1;
+//             b=b-1;
+        
+//             edges[a].push_back(b);
+// 			edges[b].push_back(a);
+            
+// 			if(m.find(a)!=m.end() && m[a].find(b)!=m[a].end())
+//             {
+//                 int tt=m[a][b];
+//                 if(tt!=c) ans=false;
+//             }
+//             else if(m.find(b)!=m.end() && m[b].find(a)!=m[b].end())
+//             {
+//                 int tt=m[b][a];
+//                 if(tt!=c) ans=false;
+//             }
+//             else
+//             {
+//                 m[a][b]=m[b][a]=c;
+//             }
+//         }
+        
+//         if(ans==false)
+//         {
+//             cout<<"no"<<endl;
+//             continue;
+//         }
+        
+//         ans=isBipartite(edges,n);
+        
+// 		if(ans==false)
+//             cout<<"no"<<endl;
+//         else
+//             cout<<"yes"<<endl;
+//     }
+// }
