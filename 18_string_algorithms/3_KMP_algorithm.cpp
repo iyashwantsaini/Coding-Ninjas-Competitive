@@ -45,6 +45,11 @@ bool kmpsearch(string text,string pattern,int *lps){
         if(text[i]==pattern[j]){
             i++;
             j++;
+            // checking if j has already reached its end
+            // this is to avoid unncessary comparisions
+            if(j==lenpatt){
+                return true;
+            }
         }else{
             // not equal
             // go to previous best prefix using lps array
@@ -73,8 +78,16 @@ int main(){
     
     string text="abcxabcdabcdabcy";
     string pattern="abcdabcd";
-    int *lps=getlps(pattern);
+
+    int *lps=new int[pattern.length()]{};
+    lps=getlps(pattern);
+
+    // for(int i=0;i<pattern.length();i++){
+    //     cout<<lps[i]<<" ";
+    // }cout<<"\n";
+
     bool ans=kmpsearch(text,pattern,lps);
+    
     cout<<ans<<"\n";
     return 0;
 }
