@@ -31,7 +31,88 @@ No suggestions
 #include<bits/stdc++.h>
 using namespace std;
 
+class node{
+    public:
+        char c;
+        node **children;
+        int isleaf;
+        node(){
+            children=new node*[26];
+            for(int i=0;i<26;i++){
+                children[i]=NULL;
+            }
+            isleaf=0;
+        }
+};
+
+void insert(node *head,string s){
+    node *curr=head;
+    for(int i=0;i<s.length();i++){
+        char c=s[i];
+        // find if already present in trie
+        if(curr->children[c-'a']!=NULL){
+            curr=curr->children[c-'a'];
+            // cout<<curr->c<<"\n";
+        }
+        // if not present create node
+        else{
+            node *newnode=new node();
+            newnode->c=c;
+            curr->children[c-'a']=newnode;
+            curr=curr->children[c-'a'];
+            // cout<<curr->c<<"\n";
+        }
+    }
+    curr->isleaf=1;
+}
+
+// dfs helper
+void dfs(node *current, string prefix){
+    if (current->isleaf){
+        cout << prefix << endl;
+    }
+    for (int i = 0; i < 26; i++){
+        node *temp = current;
+        if (temp->children[i] != NULL){
+            char suffix = (int)i + (int)'a';
+            dfs(current->children[i], prefix + suffix);
+        }
+    }
+}
+
+void dfs_trie(node *head,string s){
+    node *curr=head;
+    // first go upto length of given string in trie
+    for(int i=0;i<s.length();i++){
+        char c=s[i];
+        if(curr->children[c-'a']!=NULL){
+            curr=curr->children[c-'a'];
+        }else{
+            cout<<"No suggestions"<<"\n";
+            // for improving next time insert it into trie
+            insert(head,s);
+            return;
+        }
+    }
+    dfs(curr, s);
+}
+
 int main(){
-    
+    int n;
+    cin>>n;
+    node *head=new node();
+    for(int i=0;i<n;i++){
+        string s;
+        cin>>s;
+        insert(head,s);
+    }
+    int q;
+    cin>>q;
+    while(q--){
+        string t;
+        cin>>t;
+        dfs_trie(head,t);
+        // insert(head,t);
+    }
     return 0;
 }
