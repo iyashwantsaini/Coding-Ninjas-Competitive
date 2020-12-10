@@ -22,6 +22,7 @@ Coding Ninjas | Competitive Programming | C++
 - advanced graphs
 - string algorithms
 - tries
+- fenwick tree
 
 ## License
 
