@@ -21,3 +21,4 @@ Coding Ninjas | Competitive Programming | C++
 - graphs 2
 - advanced graphs
 - string algorithms
+- tries
