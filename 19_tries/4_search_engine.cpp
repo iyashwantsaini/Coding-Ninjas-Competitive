@@ -24,7 +24,79 @@ SAMPLE OUTPUT
 #include<bits/stdc++.h>
 using namespace std;
 
+class node{
+    public:
+        // current value
+        char a;
+        int wt;
+        // vector of children nodes
+        // vector<node> *nodes=new vector<node>;
+        node **children;
+        node(){
+            children=new node*[26];
+            for(int i=0;i<26;i++){
+                children[i]=NULL;
+            }
+            wt=0;
+        }
+};
+
+void insert(node *head,int n,string s,int w){
+    node *curr=head;
+    for(int i=0;i<s.length();i++){
+        char c=s[i];
+        // search for children of currrent node to find if character already present 
+        if(curr->children[c-'a']!=NULL){
+            curr=curr->children[c-'a'];
+            if(curr->wt<w){
+                curr->wt=w;
+            }
+            // cout<<curr->a<<" "<<curr->wt<<" \n";
+        }else{
+        // character not already present in trie
+            node *current;
+            current=new node();
+            current->a=c;
+            current->wt=w;
+            curr->children[c-'a']=current;
+            curr=curr->children[c-'a'];
+            // cout<<curr->a<<" "<<curr->wt<<" \n";
+        }
+    }
+}
+
+int query(node *head,int n,string t){
+    node *curr=head;
+    for(auto i=t.begin();i!=t.end();i++){
+        char c=*i;
+        int flag=0;
+        if(curr->children[c-'a']!=NULL){
+            curr=curr->children[c-'a'];
+            flag=1;
+        }
+        if(flag==0){
+            return -1;
+        }
+    }
+    return curr->wt;
+}
+
 int main(){
-    
+    int n,q;
+    cin>>n>>q;
+    node *head=new node();
+    string s;
+    int w;
+    for(int i=0;i<n;i++){
+        cin>>s>>w;
+        // insert in trie
+        insert(head,n,s,w);
+    }
+    while(q--){
+        string t;
+        cin>>t;
+        // logic
+        cout<<query(head,n,t)<<"\n";
+    }
     return 0;
 }
