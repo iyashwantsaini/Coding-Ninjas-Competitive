@@ -31,6 +31,66 @@ Sample Output
 #include <bits/stdc++.h>
 using namespace std;
 
+class coder{
+    public:
+        // x=ai,y=hi
+        // index=to maintain original index of the coder as we need to give ans in this order only
+        int x,y,index;
+};
+
+// sort on basis of x value
+// if x equal then take y
+bool compare(coder A,coder B){
+    if(A.x==B.x){
+        return A.y<B.y;
+    }
+    return A.x<B.x;
+}
+
+void update(int y,int *BIT){
+    for(;y<=100000;y+=y&(-y)){
+        BIT[y]++;
+    }
+}
+
+int query(int y,int *BIT){
+    int count=0;
+    for(;y>0;y-=y&(-y)){
+        count+=BIT[y];
+    }
+    return count;
+}
+
 int main(){
+    int n;
+    cin>>n;
+    coder *a=new coder[n];
+    for(int i=0;i<n;i++){
+        cin>>a[i].x>>a[i].y;
+        a[i].index=i;
+    }
+    sort(a,a+n,compare);
+    int *BIT=new int[100001]{};
+    int *ans=new int[n];
+    for(int i=0;i<n;){
+        int endindex=i;
+        while(endindex<n&&a[i].x==a[endindex].x&&a[i].y==a[endindex].y){
+            endindex++;
+        }
+        for(int j=i;j<endindex;j++){
+            // as we want ans in given input order
+            // we'll use the stored indices
+            // query
+            ans[a[j].index]=query(a[j].y,BIT);
+        }
+        for(int j=i;j<endindex;j++){
+            // update
+            update(a[j].y,BIT);
+        }
+        i=endindex;
+    }
+    for(int i=0;i<n;i++){
+        cout<<ans[i]<<"\n";
+    }
     return 0;
 }
