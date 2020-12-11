@@ -73,7 +73,11 @@ int main(){
     int *BIT=new int[100001]{};
     int *ans=new int[n];
     for(int i=0;i<n;){
+        // if 2 or more coders have same x and y,
+        // then we need to query for all together as ans for all similars will be same,
+        // then only we'll update for all similars together (++)
         int endindex=i;
+        // finding number of exact similar coders in the array
         while(endindex<n&&a[i].x==a[endindex].x&&a[i].y==a[endindex].y){
             endindex++;
         }
