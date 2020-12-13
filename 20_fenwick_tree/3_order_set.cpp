@@ -1,10 +1,13 @@
 /*
-In this problem, you have to maintain a dynamic set of numbers which support the two fundamental operations
+In this problem, you have to maintain a dynamic set of numbers which support 
+
+=> the two fundamental operations
 INSERT(S,x): if x is not in S, insert x into S
 DELETE(S,x): if x is in S, delete x from S
-and the two type of queries
+=> and the two type of queries
 K-TH(S) : return the k-th smallest element of S
 COUNT(S,x): return the number of elements of S smaller than x
+
 Input Format
 Line 1: Q (1 ≤ Q ≤ 200000), the number of operations
 In the next Q lines, the first token of each line is a character I, D, K or C meaning that the corresponding operation is INSERT, DELETE, K-TH or COUNT, respectively, following by a whitespace and an integer which is the parameter for that operation.
@@ -29,9 +32,39 @@ Output Format
 invalid
 */
 
-#include <bits/stdc++.h>
-using namespace std;
+// incomplete
 
-int main(){
-    return 0;
-}
+// #include <bits/stdc++.h>
+// using namespace std;
+
+// int main(){
+//     int q;
+//     cin>>q;
+
+//     map<int,int> m;
+//     int *BIT=new int[q+1]{};
+    
+//     char c;
+//     int x;
+//     while(q--){
+//         cin>>c>>x;
+//         if(c=='I'){
+//             if(query(m[x])==query(m[x]-1)){
+//                 // means element not currently present
+//                 m[x]=1;
+//                 auto val=m.find(x);
+//                 update(q,x,BIT);
+//             }
+//         }else if(c=='D'){
+//             if(query[m[x]]!=query(m[x]-1)){
+//                 // means element is present => delete it
+//                 del(x,BIT);
+//             }
+//         }else if(c=='K'){
+
+//         }else{
+
+//         }
+//     }
+//     return 0;
+// }
