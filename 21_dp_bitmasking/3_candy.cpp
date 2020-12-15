@@ -22,6 +22,7 @@ typedef long long ll;
 
 ll solver_helper(int like[][MAXN],int n,ll *dp,int p,int mask){
     // base case
+    // so the total number of leaves in the tree will give us the total number of ways
     if(p>=n){
         return 1;
     }
