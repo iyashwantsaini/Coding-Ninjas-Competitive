@@ -23,6 +23,7 @@ Coding Ninjas | Competitive Programming | C++
 - string algorithms
 - tries
 - fenwick tree
+- dp & bitmasking
 
 ## License
 
