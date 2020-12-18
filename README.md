@@ -25,6 +25,7 @@ Coding Ninjas | Competitive Programming | C++
 - fenwick tree
 - dp & bitmasking
 - number theory 1
+- applications of NT 1
 
 ## License
 
