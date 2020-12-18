@@ -26,7 +26,47 @@ Sample Output:
 #include<bits/stdc++.h>
 using namespace std;
 
-int main(){
+// O(len(a))
+int findmod(string a,int b){
+    int mod=0;
+    // find for each integer based on previous => so now it'll never get out of range
+    for(int i=0;i<a.length();i++){
+        int curr_num=int(a[i]-'0');
+        mod=(mod*10+curr_num)%b;
+    }
+    return mod;
+}
 
+// O(log(max(a,b)))
+int find_gcd(int a,int b){
+    // special cases
+    if(a<b){
+        return find_gcd(b,a);
+    }
+    // base case
+    if(b==0){
+        return a;
+    }
+    // recursive case
+    return find_gcd(b,a%b);
+}
+
+int main(){
+    int n;
+    cin>>n;
+    while(n--){
+        int b;
+        string a;
+        cin>>b>>a;
+        if(b==0){
+            cout<<a<<"\n";
+            continue;
+        }
+        // we know gcd(a,b)=gcd(b,a%b)
+        // finding a%b => here "a" is a string
+        int a_mod_b=findmod(a,b);
+        // finding gcd
+        cout<<find_gcd(b,a_mod_b)<<"\n";
+    }
 	return 0;
 }
