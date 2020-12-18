@@ -20,10 +20,54 @@ Sample Output:
 8
 */
 
-#include<iostream>
+#include<bits/stdc++.h>
 using namespace std;
+typedef long long int ll;
+#define mod 1000000007
+
+ll divisors(ll n){
+	// create sieve for storing primes upto n
+	int *sieve=new int[n+2];
+	for(ll i=0;i<=n;i++){
+		sieve[i]=1;
+	}
+	sieve[0]=0;
+	sieve[1]=0;
+	for(ll i=2;i*i<=n;i++){
+		if(sieve[i]==1){
+			for(int j=i*i;j<=n;j+=i){
+				sieve[j]=0;
+			}
+		}
+	}
+
+	// now process for each prime
+	ll divi_=1;
+	for(ll i=2;i<=n;i++){
+		// if prime
+		if(sieve[i]==1){
+			// find how many times this primes comes from 1 to n
+			ll presence_num=0;
+			for(ll j=1;pow(i,j)<=n;j++){
+				ll ipoj=pow(i,j);
+				presence_num+=( n/ipoj );
+			}
+			// add this count to the divisors
+			divi_=(divi_%mod*(presence_num+1)%mod)%mod;
+		}
+	}
+
+	// delete sieve;
+	return divi_;
+}
 
 int main(){
-    
+    ll t;
+	cin>>t;
+	while(t--){
+		ll n;
+		cin>>n;
+		cout<<divisors(n)<<"\n";
+	}
 	return 0;
 }
