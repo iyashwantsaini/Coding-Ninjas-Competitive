@@ -26,6 +26,7 @@ Coding Ninjas | Competitive Programming | C++
 - dp & bitmasking
 - number theory 1
 - applications of NT 1
+- number theory 2
 
 ## License
 
