@@ -27,7 +27,56 @@ Sample Output:
 
 #include<bits/stdc++.h>
 using namespace std;
-int main() {
+typedef long long int ll;
 
-	// Write your code here
+ll modular_exp(ll a,ll b,ll c){
+	// base cases
+	if(a==0){
+		return 0;
+	}
+	if(b==0){
+		return 1;
+	}
+	ll ans;
+	// if even
+	if(b%2==0){
+		ll smallans=modular_exp(a,b/2,c);
+		ans=(smallans*smallans)%c;
+	}
+	// if odd
+	else{
+		ll smallans=modular_exp(a,b-1,c);
+		ans=a%c;
+		ans=(ans*smallans)%c;
+	}
+	return ans;
+}
+
+int main() {
+	ll t;
+	cin>>t;
+	while(t--){
+		ll n,p;
+		cin>>n>>p;
+		// handling basic cases
+		if(n>=p){
+			cout<<0<<"\n";
+			continue;
+		}
+		// n<p
+		// multiply n! with numbers from n+1 to p-1 => to use (p-1)!%p=-1
+		// so n!%p=-1*((n+1)^(-1))%p*((n+2)^(-1))%p....((p-1)^(-1))%p
+		// a^(-1)%p=a^(p-2)%p
+		ll fact=1;
+		for(ll i=n+1;i<=p-1;i++){
+			// ans=ans*modular_exp(i,p-2,p);
+			fact=(fact*i)%p;
+			if(fact==0){
+				break;
+			}
+		}
+		ll ans=modular_exp(fact,p-2,p);
+		cout<<p-ans<<"\n";
+	}
+	return 0;
 }
