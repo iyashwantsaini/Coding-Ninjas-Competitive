@@ -27,6 +27,7 @@ Coding Ninjas | Competitive Programming | C++
 - number theory 1
 - applications of NT 1
 - number theory 2
+- number theory 3
 
 ## License
 
