@@ -22,9 +22,9 @@ int kadane(int a[],int n,int s[]){
 }
 
 int main(){
-    int a[]={-5,6,7,-20,3,5,8,-9};
-    int s[8];
-    // OP=16
-    cout<<kadane(a,8,s);
+    int a[]={7,6,-5,10};
+    int s[4];
+    // OP=18
+    cout<<kadane(a,4,s);
     return 0;
 }
