@@ -20,7 +20,7 @@ int kcon(int b[],int n,int s[]){
     s[0]=b[0];
     int maxnum=s[0];
     for(int i=1;i<n;i++){
-        if(b[i-1]>0){
+        if(b[i]+s[i-1]>b[i]){
             s[i]=s[i-1]+b[i];
         }else{
             s[i]=b[i];
