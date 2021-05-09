@@ -45,6 +45,8 @@
 // For the second query, we have 5 triplets in total that sum up to 10. They are, (2, 8, 0), (2, 11, -3), (-5, 5, 10), (8, 5, -3) and (-6, 5, 11)
 
 #include<bits/stdc++.h>
+using namespace std;
+
 int tripletSum(int *arr, int n, int num)
 {
     int size=n;
