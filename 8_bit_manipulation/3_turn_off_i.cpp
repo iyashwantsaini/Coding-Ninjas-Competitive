@@ -23,7 +23,9 @@ int turnOffIthBit(int n, int i){
     // so 12^1<<1 will make n=14
     // so we take min of n,n^1<<i   
 
-    n=min(n,n^1<<i);
+    // n=min(n,n^1<<i);
+    // OR
+    n=n&(~(1<<i));
     return n;
 }
 
