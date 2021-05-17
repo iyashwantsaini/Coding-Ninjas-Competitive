@@ -1,18 +1,19 @@
 /*
-Given an integer array A of size N, find and return the minimum absolute difference between any two elements in the array.
-We define the absolute difference between two elements ai, and aj (where i != j ) is |ai - aj|.
-Input format :
-Line 1 : Integer N, Array Size
-Line 2 : Array elements (separated by space)
-Output Format :
-Minimum difference
-Constraints :
-1 <= N <= 10^6
-Sample Input :
-5
-2 9 0 4 5
-Sample Input :
-1
+Nikunj loves donuts, but he also likes to stay fit. He eats n donuts in one sitting, and each donut has a calorie count, ci. After eating a donut with k calories, he must walk at least 2^j x k(where j is the number donuts he has already eaten) miles to maintain his weight.
+Given the individual calorie counts for each of the n donuts, find and print a long integer denoting the minimum number of miles Nikunj must walk to maintain his weight. Note that he can eat the donuts in any order.
+Input
+The first line contains an integer, n, denoting the number of donuts. 
+The second line contains n space-separated integers describing the respective calorie counts of each donut I, i.e ci.
+Output
+Print a long integer denoting the minimum number of miles Nikunj must walk to maintain his weight.
+Constraints
+1 ≤ n ≤ 40
+1 ≤ ci ≤ 1000
+Sample Input
+3
+1 3 2
+Sample Output
+11
 */
 
 #include<bits/stdc++.h>
