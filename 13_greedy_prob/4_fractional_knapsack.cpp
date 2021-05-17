@@ -22,8 +22,68 @@ Sample Output
 using namespace std;
 typedef long long ll;
 
+//our main priority is time
+bool compare(ll w1[3],ll w2[3]){
+    //if time is same
+    if(w1[0]==w2[0]){
+        //if speed is same
+        if(w1[2]==w2[2]){
+            //choose the one with smaller cost
+        	return w1[1]<w2[1];
+        }else{
+            //if speed not same consider the one with faster speed irrespective of cost
+            return w1[2]>w2[2];
+        }
+    }else{
+        return w1[0]<w2[0];
+    }
+}
+
 int main()
 {
+    ios_base::sync_with_stdio(false) ; 
+    cin.tie(NULL) ; 
+	ll n,d;
+    cin>>n>>d;
+    ll **w=new ll*[n+1];
+    for(int i=0;i<n;i++){
+        w[i]=new ll[3];
+        cin>>w[i][0]>>w[i][1]>>w[i][2];
+    }
+    sort(w,w+n,compare);
     
+    // for(int i=0;i<n;i++){
+    //     cout<<w[i][0]<<w[i][1]<<w[i][2]<<endl;
+    // }
+    
+    ll area_done=0;
+    ll cost=w[0][1]; //cost is of the first worker
+    //choosing the first worker as previous and current
+    ll prev_worker=0;
+    ll curr_worker=0;
+    
+    for(int i=1;i<n;i++){
+        prev_worker=i-1;
+        ll time_diff=w[i][0]-w[prev_worker][0];
+        
+        area_done+=time_diff*w[curr_worker][2];
+        
+        if(area_done>=d){
+            //means we have painted all required area
+            break;
+        }
+        
+        //if we found a better worker then use him/her as our current
+        if(w[curr_worker][2]<w[i][2]){
+            
+            curr_worker=i;
+            //now as we have choosen our current worker, add his/her cost to our total cost
+            cost+=w[curr_worker][1];
+            
+        }
+        
+    }
+    
+    cout<<cost<<endl;
     return 0;
 }
