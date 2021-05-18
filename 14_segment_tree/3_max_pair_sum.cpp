@@ -38,8 +38,8 @@ typedef long long ll;
 
 // node for segment tree
 struct node{
-    int mx=0;
-    int smx=0;
+    int mx=0; //maximum
+    int smx=0; //second maximum
 };
 
 void build_tree(int *a,node *tree,int s,int e,int i){
